@@ -9,11 +9,25 @@ function App() {
 
   const [step, setStep] = useState(1);
   const [recipe, setRecipe] = useState(null);
-  const [messages, setMessages] = useState([{"from": "BOT", "message": "Ask me questions about your recipe!"}]);
+  const [messages, setMessages] = useState([]);
+  const [recipeData, setRecipeData] = useState(null);
 
   useEffect(() => {
     if (recipe != null) {
-      setStep(2);
+      var body = {"recipe_url": recipe};
+      body = JSON.stringify(body);
+      fetch("http://127.0.0.1:5000/api/recipe", {method:'POST', headers: { 'Content-Type': 'application/json', 'Accept': '*/*' }, body: body})
+        .then(res => res.json())
+        .then(
+            (result) => {
+            setMessages([...messages, {"from": "BOT", "message": "Good choice! You've decided to make " + JSON.parse(result["recipe_data"])["title"] + "."}, {"from": "BOT", "message": result["message"]}]);
+            setRecipeData(result["recipe_data"]);
+            setStep(2);
+          },
+          (error) => {
+            console.log(error);
+          }
+        )
     }
   }, [recipe])
 
@@ -26,7 +40,7 @@ function App() {
           </div>
         </div>
       :
-        <Chatbot recipe={recipe} messages={messages} setMessages={setMessages}/>
+        <Chatbot recipe={recipe} messages={messages} setMessages={setMessages} recipeData={recipeData} setRecipeData={setRecipeData}/>
       }
     </div>
   );
