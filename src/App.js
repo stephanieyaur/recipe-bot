@@ -20,7 +20,7 @@ function App() {
         .then(res => res.json())
         .then(
             (result) => {
-            setMessages([...messages, {"from": "BOT", "message": "Good choice! You've decided to make " + JSON.parse(result["recipe_data"])["title"] + "."}, {"from": "BOT", "message": result["message"]}]);
+            setMessages([...messages, {"from": "BOT", "message": "Good choice! You've decided to make " + JSON.parse(result["recipe_data"])["title"].trim() + "."}, {"from": "BOT", "message": result["message"], "link": ""}]);
             setRecipeData(result["recipe_data"]);
             setStep(2);
           },

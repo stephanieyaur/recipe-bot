@@ -18,7 +18,7 @@ const StartPage = ({setRecipe}) => {
                 What recipe would you like to ask questions about?
             </h1>
             <div className="inputSearch">
-                <input type="text" id="recipeSearch" name="recipeSearch" className="recipeSearch" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={(e) =>  keyPressHandler(e)}/>
+                <input type="text" id="recipeSearch" name="recipeSearch" className="recipeSearch" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={(e) =>  keyPressHandler(e)} onClick={() => setInputValue("")}/>
                 <button className="Go" onClick={() => setRecipe(inputValue)}>Go</button>
             </div>
         </div>
